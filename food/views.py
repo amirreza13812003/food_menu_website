@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Item
+from .forms import ItemForm
 
 
 def item_list(request):
@@ -10,3 +11,37 @@ def item_list(request):
 def item_detail(request, id):
     item = Item.objects.get(id=id)
     return render(request, 'food/detail.html', {'item': item})
+
+
+def create_item(request):
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('food:item_list')
+    else:
+        form = ItemForm()
+
+    return render(request, 'food/item-form.html', {'form': form}) 
+    
+
+def update_item(request, id):
+    item = Item.objects.get(id=id)
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('food:item_list')
+    else:
+        form = ItemForm()
+
+    return render(request, 'food/item-form.html', {'form':form, 'item':item})        
+
+
+def delete_item(request, id):
+    item = Item.objects.get(id=id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('food:item_list')
+    
+    return render(request, 'food/item-delete.html', {'item': item})        
