@@ -12,11 +12,19 @@
 <body>
     <nav class="navbar navbar-dark bg-primary">
         <div class="container-fluid">
-          <a href="#" class="navbar-brand">Food App</a>
+          <a href="#" class="navbar-brand"> Food App </a>
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="{% url 'food:create_item'%}">Add Item</a>
-            <a class="nav-item nav-link" href="#">Delete Item</a>
-            <a class="nav-item nav-link" href="#">View Item</a>
+            <a class="nav-item nav-link" href="{% url 'food:create_item'%}"> Add Item </a>
+            <a class="nav-item nav-link" href="#"> Delete Item </a>
+            <a class="nav-item nav-link" href="#"> View Item </a>
+
+            {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'logout' %}"> Logout </a>
+              <a class="nav-item nav-link" href="{% url 'profile' %}"> Profile </a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}"> Login </a>
+            {% endif %}
+
           </div>
         </div>
       </nav>
