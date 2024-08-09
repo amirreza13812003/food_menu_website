@@ -41,3 +41,8 @@ def logout_user(request):
         return redirect('food:item_list') 
 
     return render(request, 'users/logout.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
