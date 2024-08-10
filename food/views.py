@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Item
 from .forms import ItemForm
 
@@ -13,11 +14,14 @@ def item_detail(request, id):
     return render(request, 'food/detail.html', {'item': item})
 
 
+@login_required
 def create_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            item = form.save(commit=False)
+            item.user = request.user
+            item.save()
             return redirect('food:item_list')
     else:
         form = ItemForm()

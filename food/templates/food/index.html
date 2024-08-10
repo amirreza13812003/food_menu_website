@@ -10,26 +10,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-    {% block body%}
+    {% block body %}
     
     {% for item in items %}
-        <div class="row">
+        <div class="row mb-3 mt-4"> <!-- Added margin-bottom for spacing between rows -->
             <div class="col-md-3 offset-md-2">
-                <img class="card" width="150px" src="{{ item.image.url }}">
+                <img class="card-img-top" width="150px" src="{{ item.image.url }}"> <!-- Updated class for image -->
             </div>
 
             <div class="col-md-4">
-                <h3> {{item.name}} </h3>
-                <h5> {{item.description}} </h5>
-                <h6> ${{item.price}} </h6>
+                <h3>{{ item.name }}</h3>
+                <h5>{{ item.description }}</h5>
+                <h6>${{ item.price }}</h6>
+                <h6>{{ item.user }}</h6>
             </div>
             
-            <div class="col-md-2">
-                <a href="{% url 'food:item_detail' item.id %}" class="btn btn-success"> Details </a>
+            <div class="col-md-2 d-flex align-items-center"> <!-- Center align the button -->
+                <a href="{% url 'food:item_detail' item.id %}" class="btn btn-success">Details</a>
             </div>
         </div>
-
     {% endfor %}   
+    
     {% endblock %}
 
     this is the old code
