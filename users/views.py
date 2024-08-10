@@ -3,11 +3,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import RegisterForm
 
 def register(request):
+    if User.objects.filter(id=request.user.id).exists():
+        username = User.objects.filter(id=request.user.id).get()
+        messages.success(request, f'You have registered before {username}!')
+        return redirect('food:item_list')  
     if request.method == "POST":
         form = RegisterForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
